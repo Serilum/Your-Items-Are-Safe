@@ -1,13 +1,11 @@
 package com.natamus.youritemsaresafe;
 
 import com.natamus.collective.check.RegisterMod;
-import com.natamus.youritemsaresafe.data.Constants;
 import com.natamus.youritemsaresafe.forge.config.IntegrateForgeConfig;
 import com.natamus.youritemsaresafe.forge.events.ForgeDeathEvent;
 import com.natamus.youritemsaresafe.util.Reference;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -20,7 +18,6 @@ public class ModForge {
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		modEventBus.addListener(this::loadComplete);
 
-		setGlobalConstants();
 		ModCommon.init();
 
 		IntegrateForgeConfig.registerScreen(ModLoadingContext.get());
@@ -30,9 +27,5 @@ public class ModForge {
 
 	private void loadComplete(final FMLLoadCompleteEvent event) {
     	MinecraftForge.EVENT_BUS.register(new ForgeDeathEvent());
-	}
-
-	private static void setGlobalConstants() {
-		Constants.inventoryTotemLoaded = ModList.get().isLoaded("inventory-totem");
 	}
 }
