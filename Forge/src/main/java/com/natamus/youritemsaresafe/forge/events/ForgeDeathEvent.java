@@ -13,7 +13,7 @@ public class ForgeDeathEvent {
 	@SubscribeEvent
 	public void onPlayerDeath(LivingDeathEvent e) {
 		Entity entity = e.getEntity();
-		if (entity.getCommandSenderWorld().isClientSide) {
+		if (entity.level.isClientSide) {
 			return;
 		}
 		

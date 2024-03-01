@@ -18,8 +18,11 @@ public class ConfigHandler extends DuskConfig {
 	@Entry public static boolean needArmorStandMaterials = true;
 	@Entry public static boolean needSignMaterials = false;
 	@Entry public static boolean ignoreStoneMaterialNeed = true;
+	@Entry public static boolean createChestAboveVoid = true;
+	@Entry public static boolean createVoidPlatform = true;
 	@Entry public static boolean sendMessageOnCreationFailure = true;
 	@Entry public static boolean sendMessageOnCreationSuccess = true;
+	@Entry public static boolean sendDeathCoordinatesInChat = true;
 	@Entry public static String creationFailureMessage = "Your items are not safe due to having insufficient materials. Missing: %plankamount% planks.";
 	@Entry public static String creationSuccessMessage = "Your items are safe at your death location.";
 
@@ -48,11 +51,20 @@ public class ConfigHandler extends DuskConfig {
 		configMetaData.put("ignoreStoneMaterialNeed", Arrays.asList(
 			"Only relevant if 'needChestAndArmorStandMaterials' is enabled. An armor stand needs 1 stone slab to be created, but I think it's alright to ignore that requirement. If enabled, no stone is needed in the inventory on death."
 		));
+		configMetaData.put("createChestAboveVoid", Arrays.asList(
+			"If a chest should be placed right above the minimum build height when a player dies in the void."
+		));
+		configMetaData.put("createVoidPlatform", Arrays.asList(
+			"If a 3x3 platform should be created below the chest above the void. 'createChestAboveVoid' must be enabled."
+		));
 		configMetaData.put("sendMessageOnCreationFailure", Arrays.asList(
 			"If a message should be sent if the chest or armor stand can't be created due to missing materials."
 		));
 		configMetaData.put("sendMessageOnCreationSuccess", Arrays.asList(
 			"If a message should be sent on successful creation of the chest(s) and armor stand."
+		));
+		configMetaData.put("sendDeathCoordinatesInChat", Arrays.asList(
+			"If the player's death coordinates should be sent in the chat below the 'sendMessageOnCreationFailure'/'sendMessageOnCreationSuccess' message."
 		));
 		configMetaData.put("creationFailureMessage", Arrays.asList(
 			"The message sent on creation failure with 'sendMessageOnCreationFailure' enabled. Possible replacement values: %plankamount%, %stoneamount%."
