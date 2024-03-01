@@ -1,9 +1,6 @@
 package com.natamus.youritemsaresafe.events;
 
-import com.natamus.collective.functions.CompareBlockFunctions;
-import com.natamus.collective.functions.DataFunctions;
-import com.natamus.collective.functions.HeadFunctions;
-import com.natamus.collective.functions.TileEntityFunctions;
+import com.natamus.collective.functions.*;
 import com.natamus.youritemsaresafe.config.ConfigHandler;
 import com.natamus.youritemsaresafe.data.Constants;
 import com.natamus.youritemsaresafe.util.Util;
@@ -27,19 +24,15 @@ import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DeathEvent {
-	private static final List<EquipmentSlot> slotTypes = new ArrayList<EquipmentSlot>(Arrays.asList(EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET));
-	
 	public static void onPlayerDeath(ServerPlayer player, DamageSource damageSource, float damageAmount) {
 		Level level = player.level();
 
-		int chestCount = 1;
 		String playerName = player.getName().getString();
 		
-		List<ItemStack> itemStacks = new ArrayList<>(player.getInventory().items);
+		List<ItemStack> itemStacks = Util.getInventoryItems(player);
 		
 		int totalItemCount = 0;
 		for (ItemStack itemStack : itemStacks) {
@@ -49,7 +42,7 @@ public class DeathEvent {
 		}
 		
 		if (!ConfigHandler.createArmorStand) {
-			for (EquipmentSlot slotType : slotTypes) {
+			for (EquipmentSlot slotType : Constants.slotTypes) {
 				if (!player.getItemBySlot(slotType).isEmpty()) {
 					totalItemCount += 1;
 				}
@@ -64,17 +57,53 @@ public class DeathEvent {
 			return;
 		}
 
-		if (Constants.inventoryTotemLoaded) {
-			for (ItemStack inventoryStack : itemStacks) {
-				if (inventoryStack.getItem().equals(Items.TOTEM_OF_UNDYING)) {
-					return;
+
+		BlockPos deathPos = player.blockPosition().atY((int)Math.ceil(player.position().y)).immutable();
+		if (deathPos.below().getY() >= level.getMinBuildHeight() && CompareBlockFunctions.isAirOrOverwritableBlock(level.getBlockState(deathPos.below()).getBlock())) {
+			deathPos = deathPos.below().immutable();
+		}
+
+		boolean isVoidDeath = deathPos.getY() < (level.getMinBuildHeight() - 32);
+
+
+		if (!isVoidDeath) {
+			if (Constants.inventoryTotemModIsLoaded) {
+				for (ItemStack inventoryStack : itemStacks) {
+					if (inventoryStack.getItem().equals(Items.TOTEM_OF_UNDYING)) {
+						return;
+					}
+				}
+			}
+
+			if (player.getMainHandItem().getItem().equals(Items.TOTEM_OF_UNDYING) || player.getOffhandItem().getItem().equals(Items.TOTEM_OF_UNDYING)) {
+				return;
+			}
+		}
+		else { // Void Death
+			if (!ConfigHandler.createChestAboveVoid) {
+				return;
+			}
+
+			int y;
+			for (y = level.getMinBuildHeight(); y < level.getMaxBuildHeight(); y++) {
+				BlockPos possiblePos = new BlockPos(deathPos.getX(), y, deathPos.getZ());
+				if (CompareBlockFunctions.isAirOrOverwritableBlock(level.getBlockState(possiblePos).getBlock())) {
+					deathPos = possiblePos.immutable();
+					break;
+				}
+			}
+
+			if (ConfigHandler.createVoidPlatform) {
+				deathPos = deathPos.above().immutable();
+
+				for (BlockPos platformPos : BlockPos.betweenClosed(deathPos.getX()-1, y, deathPos.getZ()-1, deathPos.getX()+1, y, deathPos.getZ()+1)) {
+					if (CompareBlockFunctions.isAirOrOverwritableBlock(level.getBlockState(platformPos).getBlock())) {
+						level.setBlock(platformPos, Blocks.COBBLESTONE.defaultBlockState(), 3);
+					}
 				}
 			}
 		}
 
-		if (player.getMainHandItem().getItem().equals(Items.TOTEM_OF_UNDYING) || player.getOffhandItem().getItem().equals(Items.TOTEM_OF_UNDYING)) {
-			return;
-		}
 
 		if (ConfigHandler.mustHaveItemsInInventoryForCreation) {
 			if (ConfigHandler.needChestMaterials || ConfigHandler.needArmorStandMaterials || ConfigHandler.needSignMaterials) {
@@ -90,6 +119,8 @@ public class DeathEvent {
 					if (totalItemCount > 27) {
 						planksleft += 8;
 					}
+
+					planksleft = Util.processChestCheck(itemStacks, planksleft);
 				}
 
 				if (ConfigHandler.createArmorStand && ConfigHandler.needArmorStandMaterials) {
@@ -107,8 +138,9 @@ public class DeathEvent {
 				int planksneeded = planksleft;
 				int stoneneeded = stoneleft;
 
-				planksleft = Util.processLogCheck(itemStacks, planksleft);
-
+				if (planksleft > 0) {
+					planksleft = Util.processLogCheck(itemStacks, planksleft);
+				}
 				if (planksleft > 0) {
 					planksleft = Util.processPlankCheck(itemStacks, planksleft);
 				}
@@ -134,15 +166,10 @@ public class DeathEvent {
 				}
 			}
 		}
-		
-		BlockPos deathPos = player.blockPosition().atY((int)Math.ceil(player.position().y)).immutable();
-		if (CompareBlockFunctions.isAirOrOverwritableBlock(level.getBlockState(deathPos.below()).getBlock())) {
-			deathPos = deathPos.below().immutable();
-		}
 	
-		ArmorStand armourStand = null;
+		ArmorStand armourStand;
 
-		List<EquipmentSlot> localSlotTypes = new ArrayList<EquipmentSlot>(slotTypes);
+		List<EquipmentSlot> localSlotTypes = new ArrayList<EquipmentSlot>(Constants.slotTypes);
 		if (ConfigHandler.createArmorStand) {
 			ItemStack helmetStack = null;
 			armourStand = new ArmorStand(EntityType.ARMOR_STAND, level);
@@ -164,18 +191,25 @@ public class DeathEvent {
 			for (EquipmentSlot slotType : localSlotTypes) {
 				ItemStack slotStack = player.getItemBySlot(slotType).copy();
 				if (!slotStack.isEmpty()) {
+					if (Util.hasCurseOfVanishing(slotStack)) {
+						continue;
+					}
+
 					armourStand.setItemSlot(slotType, slotStack);
 					player.setItemSlot(slotType, ItemStack.EMPTY);
 				}
 			}
 
-			itemStacks = new ArrayList<>(player.getInventory().items);
+			itemStacks = Util.getInventoryItems(player);
 
 			if (helmetStack != null) {
-				itemStacks.add(helmetStack);
+				if (!Util.hasCurseOfVanishing(helmetStack)) {
+					itemStacks.add(helmetStack);
+				}
 			}
 		}
 		else {
+			armourStand = null;
 			for (EquipmentSlot slotType : localSlotTypes) {
 				if (slotType.equals(EquipmentSlot.MAINHAND)) {
 					continue;
@@ -183,68 +217,78 @@ public class DeathEvent {
 
 				ItemStack slotStack = player.getItemBySlot(slotType).copy();
 				if (!slotStack.isEmpty()) {
+					if (Util.hasCurseOfVanishing(slotStack)) {
+						continue;
+					}
+
 					itemStacks.add(slotStack);
 					player.setItemSlot(slotType, ItemStack.EMPTY);
 				}
 			}
 		}
-		
-		BlockState chestState = Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.SOUTH);
-		ChestBlockEntity chestEntity = new ChestBlockEntity(deathPos, chestState);
-		level.setBlock(deathPos, chestState, 3);
-		level.setBlockEntity(chestEntity);
-		
-		BlockPos deathPosUp = new BlockPos(deathPos.getX(), deathPos.getY()+1, deathPos.getZ());
-		ChestBlockEntity chestEntityTwo = new ChestBlockEntity(deathPosUp, chestState);
-		
-		int i = 0;
-		for (ItemStack itemStack : itemStacks) {
-			if (itemStack.isEmpty()) {
-				continue;
-			}
-			
-			if (i < 27) {
-				chestEntity.setItem(i, itemStack.copy());
-				itemStack.setCount(0);
-			}
-			else if (i >= 27) {
-				if (chestCount == 1) {
-					chestCount+=1;
-					level.setBlock(deathPosUp, chestState, 3);
-					level.setBlockEntity(chestEntityTwo);
+
+		BlockPos finalDeathPos = deathPos;
+		List<ItemStack> finalItemStacks = itemStacks;
+		TaskFunctions.enqueueCollectiveTask(level.getServer(), () -> {
+			int chestCount = 1;
+
+			BlockState chestState = Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.SOUTH);
+			ChestBlockEntity chestEntity = new ChestBlockEntity(finalDeathPos, chestState);
+			level.setBlock(finalDeathPos, chestState, 3);
+			level.setBlockEntity(chestEntity);
+
+			BlockPos deathPosUp = new BlockPos(finalDeathPos.getX(), finalDeathPos.getY()+1, finalDeathPos.getZ());
+			ChestBlockEntity chestEntityTwo = new ChestBlockEntity(deathPosUp, chestState);
+
+			int i = 0;
+			for (ItemStack itemStack : finalItemStacks) {
+				if (itemStack.isEmpty()) {
+					continue;
 				}
 
-				if (i-27 > 26) {
-					break;
+				if (i < 27) {
+					chestEntity.setItem(i, itemStack.copy());
+					itemStack.setCount(0);
 				}
-				
-				chestEntityTwo.setItem(i-27, itemStack.copy());
-				itemStack.setCount(0);
+				else if (i >= 27) {
+					if (chestCount == 1) {
+						chestCount+=1;
+						level.setBlock(deathPosUp, chestState, 3);
+						level.setBlockEntity(chestEntityTwo);
+					}
+
+					if (i-27 > 26) {
+						break;
+					}
+
+					chestEntityTwo.setItem(i-27, itemStack.copy());
+					itemStack.setCount(0);
+				}
+
+				i+=1;
 			}
-			
-			i+=1;
-		}
-		
-		if (armourStand != null) {
-			armourStand.setPos(deathPos.getX()+0.5, deathPos.getY()+chestCount, deathPos.getZ()+0.5);
-			armourStand.getEntityData().set(ArmorStand.DATA_CLIENT_FLAGS, DataFunctions.setBit(armourStand.getEntityData().get(ArmorStand.DATA_CLIENT_FLAGS), 4, true));
-			level.addFreshEntity(armourStand);
-		}
-		
-		Util.successMessage(player);
-		
-		if (ConfigHandler.createSignWithPlayerName) {
-			BlockPos signPos = deathPos.south().immutable();
-			level.setBlockAndUpdate(signPos, Blocks.OAK_WALL_SIGN.defaultBlockState().setValue(WallSignBlock.FACING, Direction.SOUTH));
-			
-			BlockEntity te = level.getBlockEntity(signPos);
-			if (!(te instanceof SignBlockEntity)) {
-				return;
+
+			if (armourStand != null) {
+				armourStand.setPos(finalDeathPos.getX()+0.5, finalDeathPos.getY()+chestCount, finalDeathPos.getZ()+0.5);
+				armourStand.getEntityData().set(ArmorStand.DATA_CLIENT_FLAGS, DataFunctions.setBit(armourStand.getEntityData().get(ArmorStand.DATA_CLIENT_FLAGS), 4, true));
+				level.addFreshEntity(armourStand);
 			}
-			
-			SignBlockEntity signEntity = (SignBlockEntity)te;
-			signEntity.setText(signEntity.getFrontText().setMessage(1, Component.literal(playerName)), true);
-			TileEntityFunctions.updateTileEntity(level, signPos, signEntity);
-		}
+
+			Util.successMessage(player);
+
+			if (ConfigHandler.createSignWithPlayerName) {
+				BlockPos signPos = finalDeathPos.south().immutable();
+				level.setBlockAndUpdate(signPos, Blocks.OAK_WALL_SIGN.defaultBlockState().setValue(WallSignBlock.FACING, Direction.SOUTH));
+
+				BlockEntity blockEntity = level.getBlockEntity(signPos);
+				if (!(blockEntity instanceof SignBlockEntity)) {
+					return;
+				}
+
+				SignBlockEntity signBlockEntity = (SignBlockEntity)blockEntity;
+				signBlockEntity.setText(signBlockEntity.getFrontText().setMessage(1, Component.literal(playerName)), true);
+				TileEntityFunctions.updateTileEntity(level, signPos, signBlockEntity);
+			}
+		}, 1);
 	}
 }
