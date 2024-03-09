@@ -1,7 +1,7 @@
 package com.natamus.youritemsaresafe.util;
 
 import com.natamus.collective.functions.CompareItemFunctions;
-import com.natamus.collective.functions.StringFunctions;
+import com.natamus.collective.functions.MessageFunctions;
 import com.natamus.youritemsaresafe.config.ConfigHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -84,7 +84,7 @@ public class Util {
 			String failureString = ConfigHandler.creationFailureMessage;
 			failureString = failureString.replaceAll("%plankamount%", planksLeft + "").replaceAll("%stoneamount%", stoneLeft + "");
 			
-			StringFunctions.sendMessage(player, failureString, ChatFormatting.RED, true);
+			MessageFunctions.sendMessage(player, failureString, ChatFormatting.RED, true);
 		}
 		
 		Level level = player.level();
@@ -104,7 +104,7 @@ public class Util {
 	}
 	public static void successMessage(Player player) {
 		if (ConfigHandler.sendMessageOnCreationSuccess) {
-			StringFunctions.sendMessage(player, ConfigHandler.creationSuccessMessage, ChatFormatting.DARK_GREEN, true);
+			MessageFunctions.sendMessage(player, ConfigHandler.creationSuccessMessage, ChatFormatting.DARK_GREEN, true);
 		}
 
 		deathCoordinatesMessage(player);
@@ -114,7 +114,7 @@ public class Util {
 		if (ConfigHandler.sendDeathCoordinatesInChat) {
 			BlockPos pPos = player.blockPosition();
 			String deathLocationString = " Death Coordinates; x: " + pPos.getX() + ", y: " + pPos.getY() + ", z: " + pPos.getZ() + ".";
-			StringFunctions.sendMessage(player, deathLocationString, ChatFormatting.GRAY);
+			MessageFunctions.sendMessage(player, deathLocationString, ChatFormatting.GRAY);
 		}
 	}
 }
