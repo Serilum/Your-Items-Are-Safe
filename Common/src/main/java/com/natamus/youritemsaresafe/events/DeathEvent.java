@@ -1,6 +1,10 @@
 package com.natamus.youritemsaresafe.events;
 
-import com.natamus.collective.functions.*;
+import com.natamus.collective.features.PlayerHeadCacheFeature;
+import com.natamus.collective.functions.CompareBlockFunctions;
+import com.natamus.collective.functions.DataFunctions;
+import com.natamus.collective.functions.TaskFunctions;
+import com.natamus.collective.functions.TileEntityFunctions;
 import com.natamus.youritemsaresafe.config.ConfigHandler;
 import com.natamus.youritemsaresafe.data.Constants;
 import com.natamus.youritemsaresafe.util.Util;
@@ -175,7 +179,7 @@ public class DeathEvent {
 			armourStand = new ArmorStand(EntityType.ARMOR_STAND, level);
 
 			if (ConfigHandler.addPlayerHeadToArmorStand) {
-				ItemStack headStack = HeadFunctions.getPlayerHead(playerName, 1);
+				ItemStack headStack = PlayerHeadCacheFeature.getPlayerHeadStackFromCache(playerName);
 
 				if (headStack != null) {
 					if (!player.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
