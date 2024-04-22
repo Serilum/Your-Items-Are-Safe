@@ -11,6 +11,7 @@ import com.natamus.youritemsaresafe.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -33,6 +34,9 @@ import java.util.List;
 public class DeathEvent {
 	public static void onPlayerDeath(ServerPlayer player, DamageSource damageSource, float damageAmount) {
 		Level level = player.level();
+		if (level.isClientSide) {
+			return;
+		}
 
 		String playerName = player.getName().getString();
 		
@@ -179,7 +183,10 @@ public class DeathEvent {
 			armourStand = new ArmorStand(EntityType.ARMOR_STAND, level);
 
 			if (ConfigHandler.addPlayerHeadToArmorStand) {
-				ItemStack headStack = PlayerHeadCacheFeature.getPlayerHeadStackFromCache(playerName);
+				ItemStack headStack = PlayerHeadCacheFeature.getPlayerHeadStackFromCache(player);
+				if (headStack == null) {
+					headStack = PlayerHeadCacheFeature.getPlayerHeadStackFromCache((ServerLevel)level, player.getName().getString());
+				}
 
 				if (headStack != null) {
 					if (!player.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
