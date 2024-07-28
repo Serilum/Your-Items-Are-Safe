@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "youritemsaresafe",
-  "version": "4.4",
+  "version": "4.5",
 
   "name": "Your Items Are Safe",
   "description": "Generates a chest and armor stand at a player's death location to keep items from despawning. Highly configurable.",
@@ -23,7 +23,7 @@
     "fabric": "*",
     "minecraft": ">=1.21",
     "java": ">=21",
-    "collective": ">=7.61"
+    "collective": ">=7.78"
   },
 
   "custom": {
@@ -44,11 +44,9 @@
 	  " Alister",
 	  " Andrean Olgo",
 	  " aternosorg",
-	  " BirdieMiner",
 	  " Cherriesaurus",
-	  " Jeremy Langford",
 	  " Michael W. S.",
-	  " Rare Students",
+	  " Nahuel Fernandez",
 	  " Shana Gitnick",
 	  " Tyler Behl"
   ]
