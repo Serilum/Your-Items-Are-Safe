@@ -6,12 +6,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@EventBusSubscriber
 public class ForgeDeathEvent {
 	@SubscribeEvent
-	public void onPlayerDeath(LivingDeathEvent e) {
+	public static void onPlayerDeath(LivingDeathEvent e) {
 		Entity entity = e.getEntity();
 		if (entity.level().isClientSide) {
 			return;
