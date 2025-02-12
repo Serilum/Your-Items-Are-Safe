@@ -31,6 +31,6 @@ public class ModForge {
 	}
 
 	private void loadComplete(final FMLLoadCompleteEvent event) {
-    	MinecraftForge.EVENT_BUS.register(new ForgeDeathEvent());
+    	MinecraftForge.EVENT_BUS.register(ForgeDeathEvent.class);
 	}
 }
