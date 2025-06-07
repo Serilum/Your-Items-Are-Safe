@@ -19,6 +19,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
@@ -37,30 +38,32 @@ public class DeathEvent {
 		if (level.isClientSide) {
 			return;
 		}
-
+        if (level.getServer().overworld().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) {
+            return;
+        }
 		String playerName = player.getName().getString();
-		
+
 		List<ItemStack> itemStacks = Util.getInventoryItems(player);
-		
+
 		int totalItemCount = 0;
 		for (ItemStack itemStack : itemStacks) {
 			if (!itemStack.isEmpty()) {
 				totalItemCount += 1;
 			}
 		}
-		
+
 		if (!ConfigHandler.createArmorStand) {
 			for (EquipmentSlot slotType : Constants.slotTypes) {
 				if (!player.getItemBySlot(slotType).isEmpty()) {
 					totalItemCount += 1;
 				}
 			}
-			
+
 			if (!player.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
 				totalItemCount += 1;
 			}
 		}
-		
+
 		if (totalItemCount == 0) {
 			return;
 		}
@@ -174,7 +177,7 @@ public class DeathEvent {
 				}
 			}
 		}
-	
+
 		ArmorStand armourStand;
 
 		List<EquipmentSlot> localSlotTypes = new ArrayList<EquipmentSlot>(Constants.slotTypes);
@@ -198,7 +201,7 @@ public class DeathEvent {
 					localSlotTypes.remove(EquipmentSlot.HEAD);
 				}
 			}
-	
+
 			for (EquipmentSlot slotType : localSlotTypes) {
 				ItemStack slotStack = player.getItemBySlot(slotType).copy();
 				if (!slotStack.isEmpty()) {
