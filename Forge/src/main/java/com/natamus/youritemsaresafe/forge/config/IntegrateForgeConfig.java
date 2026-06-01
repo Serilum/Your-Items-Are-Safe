@@ -1,6 +1,6 @@
 package com.natamus.youritemsaresafe.forge.config;
 
-import com.natamus.collective.config.DuskConfig;
+import com.natamus.collective_common_fabric.config.DuskConfig;
 import com.natamus.youritemsaresafe.util.Reference;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.fml.ModLoadingContext;

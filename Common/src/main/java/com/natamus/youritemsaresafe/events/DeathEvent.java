@@ -1,12 +1,13 @@
 package com.natamus.youritemsaresafe.events;
 
-import com.natamus.collective.features.PlayerHeadCacheFeature;
-import com.natamus.collective.functions.CompareBlockFunctions;
-import com.natamus.collective.functions.DataFunctions;
-import com.natamus.collective.functions.TaskFunctions;
-import com.natamus.collective.functions.TileEntityFunctions;
+import com.natamus.collective_common_fabric.features.PlayerHeadCacheFeature;
+import com.natamus.collective_common_fabric.functions.CompareBlockFunctions;
+import com.natamus.collective_common_fabric.functions.DataFunctions;
+import com.natamus.collective_common_fabric.functions.TaskFunctions;
+import com.natamus.collective_common_fabric.functions.TileEntityFunctions;
 import com.natamus.youritemsaresafe.config.ConfigHandler;
 import com.natamus.youritemsaresafe.data.Constants;
+import com.natamus.youritemsaresafe.integration.Integrations;
 import com.natamus.youritemsaresafe.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -238,8 +239,23 @@ public class DeathEvent {
 			}
 		}
 
+		// Collect items from mod-specific worn/equipped slots (Traveler's Backpack,
+		// Trinkets, etc.). Each registered collector adds its items and clears its slot.
+		Integrations.collectAll(player, itemStacks);
+
+		// FIX: Copy all collected stacks into a new list and zero the originals
+		// immediately — before vanilla death processing runs — so vanilla does not
+		// also drop the same items to the ground (which would cause duplication).
+		List<ItemStack> safeItemStacks = new ArrayList<>();
+		for (ItemStack itemStack : itemStacks) {
+			if (!itemStack.isEmpty()) {
+				safeItemStacks.add(itemStack.copy());
+				itemStack.setCount(0);
+			}
+		}
+
 		BlockPos finalDeathPos = deathPos;
-		List<ItemStack> finalItemStacks = itemStacks;
+		List<ItemStack> finalItemStacks = safeItemStacks;
 		TaskFunctions.enqueueCollectiveTask(level.getServer(), () -> {
 			int chestCount = 1;
 
@@ -258,8 +274,7 @@ public class DeathEvent {
 				}
 
 				if (i < 27) {
-					chestEntity.setItem(i, itemStack.copy());
-					itemStack.setCount(0);
+					chestEntity.setItem(i, itemStack);
 				}
 				else if (i >= 27) {
 					if (chestCount == 1) {
@@ -272,8 +287,7 @@ public class DeathEvent {
 						break;
 					}
 
-					chestEntityTwo.setItem(i-27, itemStack.copy());
-					itemStack.setCount(0);
+					chestEntityTwo.setItem(i-27, itemStack);
 				}
 
 				i+=1;

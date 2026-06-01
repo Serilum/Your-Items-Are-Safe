@@ -1,7 +1,7 @@
 package com.natamus.youritemsaresafe.util;
 
-import com.natamus.collective.functions.CompareItemFunctions;
-import com.natamus.collective.functions.MessageFunctions;
+import com.natamus.collective_common_fabric.functions.CompareItemFunctions;
+import com.natamus.collective_common_fabric.functions.MessageFunctions;
 import com.natamus.youritemsaresafe.config.ConfigHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;

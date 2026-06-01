@@ -1,7 +1,7 @@
 package com.natamus.youritemsaresafe.neoforge.config;
 
 import com.natamus.youritemsaresafe.util.Reference;
-import com.natamus.collective.config.DuskConfig;
+import com.natamus.collective_common_fabric.config.DuskConfig;
 import net.minecraft.client.gui.screens.Screen;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;

@@ -1,6 +1,6 @@
 package com.natamus.youritemsaresafe.config;
 
-import com.natamus.collective.config.DuskConfig;
+import com.natamus.collective_common_fabric.config.DuskConfig;
 import com.natamus.youritemsaresafe.util.Reference;
 
 import java.util.Arrays;
