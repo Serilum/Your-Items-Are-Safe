@@ -7,6 +7,10 @@ repositories {
     maven { url "https://github.com/Serilum/.maven/raw/maven/" }
     maven { url "https://maven.terraformersmc.com/releases/" }
     maven { url "https://maven.nucleoid.xyz/" }
+    // Traveler's Backpack (optional integration)
+    maven { url "https://api.modrinth.com/maven" }
+    // Trinkets — Patbox fork (optional integration)
+    maven { url "https://maven.pb4.eu/release/" }
 }
 
 dependencies {
@@ -19,6 +23,13 @@ dependencies {
 
     implementation "com.natamus.collective-ml:collective-fabric:${minecraft_display_version}-${collective_version}"
     compileOnly "com.natamus.collective-ml:collective:${minecraft_display_version}-${collective_version}"
+    // Runtime collective jar (universal 8.22) — provides collective_common_fabric.* used by all current Serilum mods
+    compileOnly files("${rootProject.projectDir}/libs/collective-26.1.2-8.22.jar")
+
+    // Optional integrations — compile-only; not bundled, not required at runtime
+    // Using local file refs for now; update to proper maven coords before upstream PR
+    compileOnly files("C:/ModrinthApp/profiles/Fabric 26.1.2/mods/travelersbackpack-fabric-26.1.2-11.2.6.jar")
+    compileOnly files("C:/ModrinthApp/profiles/Fabric 26.1.2/mods/trinkets-4.0.0-beta.1+26.1.jar")
 }
 
 loom {

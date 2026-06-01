@@ -1,7 +1,7 @@
 package com.natamus.youritemsaresafe;
 
-import com.natamus.collective.check.RegisterMod;
-import com.natamus.collective.check.ShouldLoadCheck;
+import com.natamus.collective_common_fabric.check.RegisterMod;
+import com.natamus.collective_common_fabric.check.ShouldLoadCheck;
 import com.natamus.youritemsaresafe.neoforge.config.IntegrateNeoForgeConfig;
 import com.natamus.youritemsaresafe.neoforge.events.NeoForgeDeathEvent;
 import com.natamus.youritemsaresafe.util.Reference;

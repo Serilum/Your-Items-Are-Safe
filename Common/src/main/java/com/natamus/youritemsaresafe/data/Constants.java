@@ -10,4 +10,6 @@ public class Constants {
 	public static final List<EquipmentSlot> slotTypes = new ArrayList<EquipmentSlot>(Arrays.asList(EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET));
 
     public static boolean inventoryTotemModIsLoaded = false;
+    public static boolean travelersBackpackModIsLoaded = false;
+    public static boolean trinketsModIsLoaded = false;
 }
