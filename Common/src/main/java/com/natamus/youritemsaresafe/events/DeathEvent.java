@@ -14,7 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.item.ItemStack;
@@ -180,7 +180,7 @@ public class DeathEvent {
 		List<EquipmentSlot> localSlotTypes = new ArrayList<EquipmentSlot>(Constants.slotTypes);
 		if (ConfigHandler.createArmorStand) {
 			ItemStack helmetStack = null;
-			armourStand = new ArmorStand(EntityType.ARMOR_STAND, level);
+			armourStand = new ArmorStand(EntityTypes.ARMOR_STAND, level);
 
 			if (ConfigHandler.addPlayerHeadToArmorStand) {
 				ItemStack headStack = PlayerHeadCacheFeature.getPlayerHeadStackFromCache(player);
