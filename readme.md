@@ -1,5 +1,5 @@
 <h2>Your Items Are Safe</h2>
-<p><a href="https://github.com/Serilum/Your-Items-Are-Safe"><img src="https://serilum.com/assets/images/logo/your-items-are-safe.png"></a></p><h2>Download</h2>
+<p><a href="https://github.com/Serilum/Your-Items-Are-Safe"><img src="https://workflow.serilum.com/web/logo/128/your-items-are-safe.png" width="100" height="100"></a></p><h2>Download</h2>
 <p>You can download Your Items Are Safe on CurseForge and Modrinth:</p><p>&nbsp;&nbsp;CurseForge: &nbsp;&nbsp;<a href="https://curseforge.com/minecraft/mc-mods/your-items-are-safe">https://curseforge.com/minecraft/mc-mods/your-items-are-safe</a><br>&nbsp;&nbsp;Modrinth: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://modrinth.com/mod/your-items-are-safe">https://modrinth.com/mod/your-items-are-safe</a></p>
 <h2>Issue Tracker</h2>
 <p>To keep a better overview of all mods, the issue tracker is located in a separate repository.<br>&nbsp;&nbsp;For issues, ideas, suggestions or anything else, please follow this link:</p>
