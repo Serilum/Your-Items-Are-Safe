@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.level.block.entity.SignTextSlot;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
@@ -297,7 +298,7 @@ public class DeathEvent {
 				}
 
 				SignBlockEntity signBlockEntity = (SignBlockEntity)blockEntity;
-				signBlockEntity.setText(signBlockEntity.getFrontText().setMessage(1, Component.literal(playerName)), true);
+				signBlockEntity.setText(signBlockEntity.getText(SignTextSlot.FRONT).asMutable().setLine(1, Component.literal(playerName)).asImmutable(), SignTextSlot.FRONT);
 				TileEntityFunctions.updateTileEntity(level, signPos, signBlockEntity);
 			}
 		}, 1);
