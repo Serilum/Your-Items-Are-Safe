@@ -1,7 +1,7 @@
-package com.natamus.youritemsaresafe.config;
+package com.serilum.youritemsaresafe.config;
 
 import com.natamus.collective.config.DuskConfig;
-import com.natamus.youritemsaresafe.util.Reference;
+import com.serilum.youritemsaresafe.util.Reference;
 
 import java.util.Arrays;
 import java.util.HashMap;

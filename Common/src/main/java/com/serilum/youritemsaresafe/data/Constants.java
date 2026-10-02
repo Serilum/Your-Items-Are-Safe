@@ -1,4 +1,4 @@
-package com.natamus.youritemsaresafe.data;
+package com.serilum.youritemsaresafe.data;
 
 import net.minecraft.world.entity.EquipmentSlot;
 
@@ -9,5 +9,5 @@ import java.util.List;
 public class Constants {
 	public static final List<EquipmentSlot> slotTypes = new ArrayList<EquipmentSlot>(Arrays.asList(EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET));
 
-    public static boolean inventoryTotemModIsLoaded = false;
+	public static boolean inventoryTotemModIsLoaded = false;
 }

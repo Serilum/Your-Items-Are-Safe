@@ -1,8 +1,8 @@
-package com.natamus.youritemsaresafe.util;
+package com.serilum.youritemsaresafe.util;
 
 import com.natamus.collective.functions.CompareItemFunctions;
 import com.natamus.collective.functions.MessageFunctions;
-import com.natamus.youritemsaresafe.config.ConfigHandler;
+import com.serilum.youritemsaresafe.config.ConfigHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.item.ItemEntity;

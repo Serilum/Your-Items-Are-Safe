@@ -1,10 +1,10 @@
-package com.natamus.youritemsaresafe;
+package com.serilum.youritemsaresafe;
 
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
-import com.natamus.youritemsaresafe.forge.config.IntegrateForgeConfig;
-import com.natamus.youritemsaresafe.forge.events.ForgeDeathEvent;
-import com.natamus.youritemsaresafe.util.Reference;
+import com.serilum.youritemsaresafe.forge.config.IntegrateForgeConfig;
+import com.serilum.youritemsaresafe.forge.events.ForgeDeathEvent;
+import com.serilum.youritemsaresafe.util.Reference;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -31,6 +31,6 @@ public class ModForge {
 	}
 
 	private void loadComplete(final FMLLoadCompleteEvent event) {
-    	MinecraftForge.EVENT_BUS.register(ForgeDeathEvent.class);
+		MinecraftForge.EVENT_BUS.register(ForgeDeathEvent.class);
 	}
 }

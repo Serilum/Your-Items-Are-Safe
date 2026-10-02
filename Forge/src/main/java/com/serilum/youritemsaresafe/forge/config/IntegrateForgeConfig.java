@@ -1,7 +1,7 @@
-package com.natamus.youritemsaresafe.forge.config;
+package com.serilum.youritemsaresafe.forge.config;
 
 import com.natamus.collective.config.DuskConfig;
-import com.natamus.youritemsaresafe.util.Reference;
+import com.serilum.youritemsaresafe.util.Reference;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.fml.ModLoadingContext;
 

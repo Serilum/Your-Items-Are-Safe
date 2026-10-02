@@ -1,9 +1,9 @@
-package com.natamus.youritemsaresafe;
+package com.serilum.youritemsaresafe;
 
 import com.natamus.collective.features.PlayerHeadCacheFeature;
 import com.natamus.collective.services.Services;
-import com.natamus.youritemsaresafe.config.ConfigHandler;
-import com.natamus.youritemsaresafe.data.Constants;
+import com.serilum.youritemsaresafe.config.ConfigHandler;
+import com.serilum.youritemsaresafe.data.Constants;
 
 public class ModCommon {
 

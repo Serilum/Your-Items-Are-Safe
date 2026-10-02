@@ -1,13 +1,13 @@
-package com.natamus.youritemsaresafe.events;
+package com.serilum.youritemsaresafe.events;
 
 import com.natamus.collective.features.PlayerHeadCacheFeature;
 import com.natamus.collective.functions.CompareBlockFunctions;
 import com.natamus.collective.functions.DataFunctions;
 import com.natamus.collective.functions.TaskFunctions;
 import com.natamus.collective.functions.TileEntityFunctions;
-import com.natamus.youritemsaresafe.config.ConfigHandler;
-import com.natamus.youritemsaresafe.data.Constants;
-import com.natamus.youritemsaresafe.util.Util;
+import com.serilum.youritemsaresafe.config.ConfigHandler;
+import com.serilum.youritemsaresafe.data.Constants;
+import com.serilum.youritemsaresafe.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;

@@ -1,9 +1,9 @@
-package com.natamus.youritemsaresafe;
+package com.serilum.youritemsaresafe;
 
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
-import com.natamus.youritemsaresafe.events.DeathEvent;
-import com.natamus.youritemsaresafe.util.Reference;
+import com.serilum.youritemsaresafe.events.DeathEvent;
+import com.serilum.youritemsaresafe.util.Reference;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.server.level.ServerPlayer;
