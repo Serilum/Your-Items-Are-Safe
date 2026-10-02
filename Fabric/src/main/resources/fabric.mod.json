@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "id": "youritemsaresafe",
-  "version": "4.7",
+  "version": "4.8",
 
   "name": "Your Items Are Safe",
   "description": "Generates a chest and armor stand at a player's death location to keep items from despawning. Highly configurable.",
-  "authors": [ "Rick South" ],
+  "authors": [ "Serilum" ],
   "contact": {
     "homepage": "https://serilum.com/mod/your-items-are-safe",
     "sources": "https://github.com/Serilum/Your-Items-Are-Safe",
@@ -16,14 +16,14 @@
   "icon": "icon.png",
 
   "environment": "*",
-  "entrypoints": { "main": [ "com.natamus.youritemsaresafe.ModFabric" ], "modmenu": [ "com.natamus.youritemsaresafe.fabric.config.IntegrateModMenu" ] },
+  "entrypoints": { "main": [ "com.serilum.youritemsaresafe.ModFabric" ], "modmenu": [ "com.serilum.youritemsaresafe.fabric.config.IntegrateModMenu" ] },
 
   "depends": {
     "fabricloader": ">=0.18.0",
     "fabric-api": "*",
     "minecraft": ">=26.3",
     "java": ">=25",
-    "collective": ">=8.39"
+    "collective": ">=8.40"
   },
 
   "custom": {
@@ -38,7 +38,7 @@
 	  " ",
 	  "Thank you very much to my Membership sponsors for supporting the development of this mod!",
 	  " ",
-	  "If you would like to contribute too, check out https://serilum.com/donate.",
+	  "If you would like to contribute too, check out https://serilum.com/donate",
 	  " ",
 	  "Membership sponsors:",
 	  " Andrean Olgo",
