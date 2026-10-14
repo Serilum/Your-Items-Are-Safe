@@ -14,12 +14,15 @@ public class ConfigHandler extends DuskConfig {
 	@Entry public static boolean addPlayerHeadToArmorStand = true;
 	@Entry public static boolean createArmorStand = true;
 	@Entry public static boolean createSignWithPlayerName = true;
+	@Entry public static boolean nameChestWithPlayerName = true;
 	@Entry public static boolean needChestMaterials = true;
 	@Entry public static boolean needArmorStandMaterials = true;
 	@Entry public static boolean needSignMaterials = false;
 	@Entry public static boolean ignoreStoneMaterialNeed = true;
 	@Entry public static boolean createChestAboveVoid = true;
 	@Entry public static boolean createVoidPlatform = true;
+	@Entry public static String dimensionsToIgnore = "";
+	@Entry public static String playerNamesToIgnore = "";
 	@Entry public static boolean sendMessageOnCreationFailure = true;
 	@Entry public static boolean sendMessageOnCreationSuccess = true;
 	@Entry public static boolean sendDeathCoordinatesInChat = true;
@@ -39,6 +42,9 @@ public class ConfigHandler extends DuskConfig {
 		configMetaData.put("createSignWithPlayerName", Arrays.asList(
 			"Whether a sign should be placed on the chest with the name of the player who died there."
 		));
+		configMetaData.put("nameChestWithPlayerName", Arrays.asList(
+			"Whether the chest should be named after the player who died there. The name is shown when the chest is opened."
+		));
 		configMetaData.put("needChestMaterials", Arrays.asList(
 			"Whether materials are needed for the chest which spawns on death. This can be the actual chest or the costs in raw materials."
 		));
@@ -56,6 +62,12 @@ public class ConfigHandler extends DuskConfig {
 		));
 		configMetaData.put("createVoidPlatform", Arrays.asList(
 			"If a 3x3 platform should be created below the chest above the void. 'createChestAboveVoid' must be enabled."
+		));
+		configMetaData.put("dimensionsToIgnore", Arrays.asList(
+			"Dimensions in which no chest or armor stand is created, separated by a comma. For example: 'minecraft:the_nether,minecraft:the_end'."
+		));
+		configMetaData.put("playerNamesToIgnore", Arrays.asList(
+			"Players for whom no chest or armor stand is created, separated by a comma. For example: 'Steve,Alex'."
 		));
 		configMetaData.put("sendMessageOnCreationFailure", Arrays.asList(
 			"If a message should be sent if the chest or armor stand can't be created due to missing materials."
