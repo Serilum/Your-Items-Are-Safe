@@ -2,16 +2,22 @@ package com.serilum.youritemsaresafe;
 
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
+import com.natamus.collective.fabric.callbacks.CollectiveEntityEvents;
+import com.natamus.collective.fabric.callbacks.CollectivePlayerEvents;
 import com.serilum.youritemsaresafe.events.DeathEvent;
 import com.serilum.youritemsaresafe.util.Reference;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.Level;
+
+import java.util.List;
 
 public class ModFabric implements ModInitializer {
-	
+
 	@Override
 	public void onInitialize() {
 		if (!ShouldLoadCheck.shouldLoad(Reference.MOD_ID)) {
@@ -26,11 +32,14 @@ public class ModFabric implements ModInitializer {
 	}
 
 	private void loadEvents() {
-		ServerLivingEntityEvents.ALLOW_DEATH.register((LivingEntity livingEntity, DamageSource damageSource, float damageAmount) -> {
-			if (livingEntity instanceof ServerPlayer) {
-				DeathEvent.onPlayerDeath((ServerPlayer)livingEntity, damageSource, damageAmount);
+		CollectivePlayerEvents.PLAYER_DEATH.register((ServerLevel serverLevel, ServerPlayer serverPlayer) -> {
+			DeathEvent.onPlayerDeath(serverPlayer, serverPlayer.getLastDamageSource(), 0);
+		});
+
+		CollectiveEntityEvents.ON_LIVING_ENTITY_DROPS.register((Level level, Entity entity, DamageSource damageSource, List<ItemEntity> drops) -> {
+			if (entity instanceof ServerPlayer) {
+				DeathEvent.onPlayerDrops((ServerPlayer)entity, drops);
 			}
-			return true;
 		});
 	}
 }
