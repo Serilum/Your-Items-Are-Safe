@@ -2,6 +2,7 @@ package com.serilum.youritemsaresafe.util;
 
 import com.natamus.collective.functions.CompareBlockFunctions;
 import com.natamus.collective.functions.CompareItemFunctions;
+import com.natamus.collective.functions.ConfigFunctions;
 import com.natamus.collective.functions.MessageFunctions;
 import com.serilum.youritemsaresafe.config.ConfigHandler;
 import com.serilum.youritemsaresafe.data.Constants;
@@ -188,7 +189,7 @@ public class Util {
 	}
 
 	public static boolean isIgnoredDimension(Level level) {
-		return isInConfigList(ConfigHandler.dimensionsToIgnore, level.dimension().identifier().toString());
+		return ConfigFunctions.isInIdList(ConfigHandler.dimensionsToIgnore, level.dimension().identifier().toString());
 	}
 
 	public static boolean isIgnoredPlayer(Player player) {
