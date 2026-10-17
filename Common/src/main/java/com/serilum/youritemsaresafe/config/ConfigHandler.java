@@ -21,7 +21,7 @@ public class ConfigHandler extends DuskConfig {
 	@Entry public static boolean ignoreStoneMaterialNeed = true;
 	@Entry public static boolean createChestAboveVoid = true;
 	@Entry public static boolean createVoidPlatform = true;
-	@Entry public static String dimensionsToIgnore = "";
+	@Entry(registry = "dimension") public static String dimensionsToIgnore = "";
 	@Entry public static String playerNamesToIgnore = "";
 	@Entry public static boolean sendMessageOnCreationFailure = true;
 	@Entry public static boolean sendMessageOnCreationSuccess = true;
